@@ -44,6 +44,7 @@ uint8_t SerialRAM::begin(const uint8_t A0, const uint8_t A1, const uint8_t SIZE)
 		return 0;
 	}
 	else {
+		this->STORAGE_ARRAY_SIZE = 0x7FF;
 		return 1;
 	}
 }
