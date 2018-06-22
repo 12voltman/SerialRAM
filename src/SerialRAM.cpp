@@ -20,8 +20,9 @@
 ///	Initialize the RAM chip with the given A0 and A1 values.
 ///	<param name="A0">A0 value (logic 0 or 1) of the RAM chip you want to address. Default value 0.</param>
 ///	<param name="A1">A1 value (logic 0 or 1) of the RAM chip you want to address. Default value 0.</param>
+///	<param name="SIZE">Size of the RAM chip you want to address in kbits (only 4 or 16 valid). Default value 16.</param>
 ///</summary>
-void SerialRAM::begin(const uint8_t A0, const uint8_t A1) {
+uint8_t SerialRAM::begin(const uint8_t A0, const uint8_t A1, const uint8_t SIZE) {
 	//build mask
 	uint8_t mask = (A0 << 1) | (A1);
 	mask <<= 1;
@@ -32,6 +33,19 @@ void SerialRAM::begin(const uint8_t A0, const uint8_t A1) {
 
 	//Arduino I2C lib
 	Wire.begin();
+	
+	//check chip size variable
+	if(SIZE == 16){
+		this->STORAGE_ARRAY_SIZE = 0x7FF;
+		return 0;
+	}
+	else if(SIZE == 4){
+		this->STORAGE_ARRAY_SIZE = 0x1FF;
+		return 0;
+	}
+	else {
+		return 1;
+	}
 }
 
 
