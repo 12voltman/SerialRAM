@@ -42,7 +42,7 @@ public:
 	bool getAutoStore();
 	
 	uint8_t write(const uint16_t address, const uint8_t* values, const uint16_t size);
-	void read(const uint16_t address, uint8_t* values, const uint16_t size);
+	uint*_t read(const uint16_t address, uint8_t* values, const uint16_t size);
 
 
 };
