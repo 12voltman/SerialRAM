@@ -35,7 +35,7 @@ private:
 
 public:
 	
-	void begin(const uint8_t A0 = 0, const uint8_t A1 = 0, const uint8_t SIZE = 16);
+	uint8_t begin(const uint8_t A0 = 0, const uint8_t A1 = 0, const uint8_t SIZE = 16);
 	uint8_t write(const uint16_t address, const uint8_t value);
 	uint8_t read(const uint16_t address);
 	void setAutoStore(const bool value);
