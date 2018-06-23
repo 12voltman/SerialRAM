@@ -36,15 +36,15 @@ uint8_t SerialRAM::begin(const uint8_t A0, const uint8_t A1, const uint8_t SIZE)
 	
 	//check chip size variable
 	if(SIZE == 16){
-		this->STORAGE_ARRAY_SIZE = 0x7FF;
+		this->STORAGE_ARRAY_SIZE = 0xF8;
 		return 0;
 	}
 	else if(SIZE == 4){
-		this->STORAGE_ARRAY_SIZE = 0x1FF;
+		this->STORAGE_ARRAY_SIZE = 0xFE;
 		return 0;
 	}
 	else {
-		this->STORAGE_ARRAY_SIZE = 0x7FF;
+		this->STORAGE_ARRAY_SIZE = 0xF8;
 		return 1;
 	}
 }
@@ -56,11 +56,14 @@ uint8_t SerialRAM::begin(const uint8_t A0, const uint8_t A1, const uint8_t SIZE)
 ///		47x04 chips valid addresses range from 0x0000 to 0x01FF
 ///		<param name="address">16 bit address</param>
 ///		<param name="value">value (byte) to be written</param>
-///		<returns>0:success, 1:data too long to fit in transmit buffer, 2 : received NACK on transmit of address, 3 : received NACK on transmit of data, 4 : other error </returns>
+///		<returns>0:success, 1:data too long to fit in transmit buffer, 2 : received NACK on transmit of address, 3 : received NACK on transmit of data, 4 : other error , 5 : address out of bounds</returns>
 ///</summary>
 uint8_t SerialRAM::write(const uint16_t address, const uint8_t value) {
 	address16b a;
 	a.a16 = address;
+	if(a.a8[1] & this->STORAGE_ARRAY_SIZE){
+		return 5;
+	}
 	Wire.beginTransmission(this->SRAM_REGISTER);
 	Wire.write(a.a8[1]);
 	Wire.write(a.a8[0]);
@@ -73,14 +76,15 @@ uint8_t SerialRAM::write(const uint16_t address, const uint8_t value) {
 ///		47x16 chips valid addresses range from 0x0000 to 0x07FF
 ///		47x04 chips valid addresses range from 0x0000 to 0x01FF
 ///		<param name="address">16 bit address</param>
-///		<returns>value (byte) read at the address</returns>
+///		<returns>value (byte) read at the address, or 0 if address out of bounds</returns>
 ///</summary>
 uint8_t SerialRAM::read(const uint16_t address) {
 	uint8_t buffer;
 	address16b a;
 	a.a16 = address;
-
-	
+	if(a.a8[1] & this->STORAGE_ARRAY_SIZE){
+		return 0;
+	}
 	Wire.beginTransmission(this->SRAM_REGISTER);
 	Wire.write(a.a8[1]);
 	Wire.write(a.a8[0]);
