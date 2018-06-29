@@ -31,7 +31,6 @@ private:
 	int8_t SRAM_REGISTER;
 	int8_t CONTROL_REGISTER;
 	int8_t STORAGE_ARRAY_SIZE;
-	uint8_t readControlRegister();
 
 public:
 	
@@ -41,21 +40,21 @@ public:
 	void setAutoStore(const bool value);
 	bool getAutoStore();
 	
-	void store();
-	void recall();
+	//void store();
+	//void recall();
 	
-	uint8_t setWriteProtect(const uint8_t prot);
-	uint8_t getWriteProtect();
+	//uint8_t setWriteProtect(const uint8_t prot);
+	//uint8_t getWriteProtect();
 	
-	void setEventBit(const bool value);
-	bool getEventBit();
+	//void setEventBit(const bool value);
+	//bool getEventBit();
 	
-	bool getMatchStatus();
+	//bool getMatchStatus();
 	
 	uint8_t write(const uint16_t address, const uint8_t* values, const uint16_t size);
 	uint8_t read(const uint16_t address, uint8_t* values, const uint16_t size);
 
-
+	uint8_t readControlRegister();
 };
 
 
