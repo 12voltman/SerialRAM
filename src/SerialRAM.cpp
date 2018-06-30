@@ -137,6 +137,30 @@ bool SerialRAM::getAutoStore()
 
 ///<summary>
 ///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
+///		<param name="value">Set the state of the Hardware Event bit</param>
+///</summary>
+void SerialRAM::setEventBit(const bool value)
+{
+	uint8_t buffer = this->readControlRegister();
+	buffer = value ? buffer|0x01 : buffer&0xfe;
+	Wire.beginTransmission(this->CONTROL_REGISTER);
+	Wire.write(0x00); //status register
+	Wire.write(buffer);
+	Wire.endTransmission();
+}
+
+///<summary>
+///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
+///		<returns>state of hardware store bit</return>
+///</summary>
+bool SerialRAM::getEventBit()
+{
+	uint8_t buffer = this->readControlRegister();
+	return buffer & 0x01;
+}
+
+///<summary>
+///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
 ///		<returns>true if the content of both arrays matches</return>
 ///</summary>
 bool SerialRAM::getMatch()
