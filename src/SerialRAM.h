@@ -49,7 +49,7 @@ public:
 	//void setEventBit(const bool value);
 	//bool getEventBit();
 	
-	//bool getMatchStatus();
+	//bool getMatch();
 	
 	uint8_t write(const uint16_t address, const uint8_t* values, const uint16_t size);
 	uint8_t read(const uint16_t address, uint8_t* values, const uint16_t size);
