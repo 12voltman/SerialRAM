@@ -36,15 +36,15 @@ uint8_t SerialRAM::begin(const uint8_t A0, const uint8_t A1, const uint8_t SIZE)
 	
 	//check chip size variable
 	if(SIZE == 16){
-		this->STORAGE_ARRAY_SIZE = 0xF8;
+		this->STORAGE_ARRAY_SIZE = 0xf8;
 		return 0;
 	}
 	else if(SIZE == 4){
-		this->STORAGE_ARRAY_SIZE = 0xFE;
+		this->STORAGE_ARRAY_SIZE = 0xfe;
 		return 0;
 	}
 	else {
-		this->STORAGE_ARRAY_SIZE = 0xF8;
+		this->STORAGE_ARRAY_SIZE = 0xf8;
 		return 1;
 	}
 }
@@ -127,7 +127,7 @@ void SerialRAM::setAutoStore(const bool value)
 
 ///<summary>
 ///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
-///		<returns>true of auto store is active</return>
+///		<returns>true if auto store is active</return>
 ///</summary>
 bool SerialRAM::getAutoStore()
 {
