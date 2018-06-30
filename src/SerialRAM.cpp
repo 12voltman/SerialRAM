@@ -137,6 +137,34 @@ bool SerialRAM::getAutoStore()
 
 ///<summary>
 ///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
+///		<param name="value">0-7 are valid levels of protection</param>
+///</summary>
+void SerialRAM::setWriteProtect(const uint8_t prot)
+{
+	if(prot & 0xf8) {
+		return 1;
+	}
+	uint8_t buffer = this->readControlRegister();
+	buffer = buffer & 0xe3 | prot << 2;
+	Wire.beginTransmission(this->CONTROL_REGISTER);
+	Wire.write(0x00); //status register
+	Wire.write(buffer);
+	Wire.endTransmission();
+	return 0;
+}
+
+///<summary>
+///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
+///		<returns>level of write protection</return>
+///</summary>
+uint8_t SerialRAM::getWriteProtect()
+{
+	uint8_t buffer = this->readControlRegister();
+	return (buffer & 0x1c) >> 2;
+}
+
+///<summary>
+///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
 ///		<param name="value">Set the state of the Hardware Event bit</param>
 ///</summary>
 void SerialRAM::setEventBit(const bool value)
