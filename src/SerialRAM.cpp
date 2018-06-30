@@ -208,8 +208,14 @@ bool SerialRAM::getMatch()
 uint8_t SerialRAM::write(const uint16_t address, const uint8_t* values, const uint16_t size)
 {
 	address16b a;
+	uint32_t endPoint = address + size;
 	a.a16 = address;
-
+	if(a.a8[1] & this->STORAGE_ARRAY_SIZE){
+		return 5;
+	}
+	else if((address + size) | (this->STORAGE_ARRAY_SIZE << 8)){
+		return 5;
+	}
 	Wire.beginTransmission(this->SRAM_REGISTER);
 	Wire.write(a.a8[1]);
 	Wire.write(a.a8[0]);
@@ -228,7 +234,12 @@ void SerialRAM::read(const uint16_t address, uint8_t * values, const uint16_t si
 {
 	address16b a;
 	a.a16 = address;
-
+	if(a.a8[1] & this->STORAGE_ARRAY_SIZE){
+		return 5;
+	}
+	else if((address + size) | (this->STORAGE_ARRAY_SIZE << 8)){
+		return 5;
+	}
 	Wire.beginTransmission(this->SRAM_REGISTER);
 	Wire.write(a.a8[1]);
 	Wire.write(a.a8[0]);
