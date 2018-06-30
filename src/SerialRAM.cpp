@@ -136,6 +136,16 @@ bool SerialRAM::getAutoStore()
 }
 
 ///<summary>
+///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
+///		<returns>true if the content of both arrays matches</return>
+///</summary>
+bool SerialRAM::getMatch()
+{
+	uint8_t buffer = this->readControlRegister();
+	return !(buffer & 0x80);
+}
+
+///<summary>
 ///	Write the array of bytes "values" at the 16 bit address "address".
 ///		47x16 chips valid addresses range from 0x0000 to 0x07FF
 ///		47x04 chips valid addresses range from 0x0000 to 0x01FF
