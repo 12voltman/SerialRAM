@@ -141,7 +141,7 @@ bool SerialRAM::getAutoStore()
 ///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
 ///		<param name="value">0-7 are valid levels of protection</param>
 ///</summary>
-void SerialRAM::setWriteProtect(const uint8_t prot)
+uint8_t SerialRAM::setWriteProtect(const uint8_t prot)
 {
 	uint8_t protectArea = prot;
 	if(protectArea & 0xf8) {
@@ -258,7 +258,7 @@ uint8_t SerialRAM::write(const uint16_t address, const uint8_t* values, const ui
 ///		<param name="values">array to be used to store the data</param>
 ///		<param name="size">number of bytes to retrieve</param>
 ///</summary>
-void SerialRAM::read(const uint16_t address, uint8_t * values, const uint16_t size)
+uint8_t SerialRAM::read(const uint16_t address, uint8_t * values, const uint16_t size)
 {
 	address16b a;
 	a.a16 = address;
