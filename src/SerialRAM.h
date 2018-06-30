@@ -43,11 +43,11 @@ public:
 	//void store();
 	//void recall();
 	
-	//uint8_t setWriteProtect(const uint8_t prot);
-	//uint8_t getWriteProtect();
+	uint8_t setWriteProtect(const uint8_t prot);
+	uint8_t getWriteProtect();
 	
-	//void setEventBit(const bool value);
-	//bool getEventBit();
+	void setEventBit(const bool value);
+	bool getEventBit();
 	
 	bool getMatch();
 	
