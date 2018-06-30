@@ -40,8 +40,8 @@ public:
 	void setAutoStore(const bool value);
 	bool getAutoStore();
 	
-	//void store();
-	//void recall();
+	void store();
+	void recall();
 	
 	uint8_t setWriteProtect(const uint8_t prot);
 	uint8_t getWriteProtect();
