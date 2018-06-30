@@ -198,6 +198,30 @@ bool SerialRAM::getMatch()
 }
 
 ///<summary>
+///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
+///		<returns>true if the content of both arrays matches</return>
+///</summary>
+void SerialRAM::store()
+{
+	Wire.beginTransmission(this->CONTROL_REGISTER);
+	Wire.write(0x55); //control register
+	Wire.write(0x33);
+	Wire.endTransmission();
+}
+
+///<summary>
+///	De/Activate the "AutoStore" to EEPROM functionnality of the RAM when power is lost.
+///		<returns>true if the content of both arrays matches</return>
+///</summary>
+void SerialRAM::recall()
+{
+	Wire.beginTransmission(this->CONTROL_REGISTER);
+	Wire.write(0x55); //control register
+	Wire.write(0xdd);
+	Wire.endTransmission();
+}
+
+///<summary>
 ///	Write the array of bytes "values" at the 16 bit address "address".
 ///		47x16 chips valid addresses range from 0x0000 to 0x07FF
 ///		47x04 chips valid addresses range from 0x0000 to 0x01FF
