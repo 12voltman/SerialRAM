@@ -61,7 +61,8 @@ uint8_t SerialRAM::begin(const uint8_t A0, const uint8_t A1, const uint8_t SIZE)
 uint8_t SerialRAM::write(const uint16_t address, const uint8_t value) {
 	address16b a;
 	a.a16 = address;
-	if(a.a8[1] & this->STORAGE_ARRAY_SIZE){
+	uint8_t arrSize = this->STORAGE_ARRAY_SIZE;
+	if(a.a8[1] & arrSize){
 		return 5;
 	}
 	Wire.beginTransmission(this->SRAM_REGISTER);
@@ -82,7 +83,8 @@ uint8_t SerialRAM::read(const uint16_t address) {
 	uint8_t buffer;
 	address16b a;
 	a.a16 = address;
-	if(a.a8[1] & this->STORAGE_ARRAY_SIZE){
+	uint8_t arrSize = this->STORAGE_ARRAY_SIZE;
+	if(a.a8[1] & arrSize){
 		return 0;
 	}
 	Wire.beginTransmission(this->SRAM_REGISTER);
@@ -141,11 +143,12 @@ bool SerialRAM::getAutoStore()
 ///</summary>
 void SerialRAM::setWriteProtect(const uint8_t prot)
 {
-	if(prot & 0xf8) {
+	uint8_t protectArea = prot;
+	if(protectArea & 0xf8) {
 		return 1;
 	}
 	uint8_t buffer = this->readControlRegister();
-	buffer = buffer & 0xe3 | prot << 2;
+	buffer = (buffer & 0xe3) | (protectArea << 2);
 	Wire.beginTransmission(this->CONTROL_REGISTER);
 	Wire.write(0x00); //status register
 	Wire.write(buffer);
@@ -232,12 +235,13 @@ void SerialRAM::recall()
 uint8_t SerialRAM::write(const uint16_t address, const uint8_t* values, const uint16_t size)
 {
 	address16b a;
-	uint32_t endPoint = address + size;
 	a.a16 = address;
+	uint16_t size1 = size;
+	uint8_t arrSize = this->STORAGE_ARRAY_SIZE;
 	if(a.a8[1] & this->STORAGE_ARRAY_SIZE){
 		return 5;
 	}
-	else if((address + size) | (this->STORAGE_ARRAY_SIZE << 8)){
+	else if((a.a16 + size1) | (arrSize << 8)){
 		return 5;
 	}
 	Wire.beginTransmission(this->SRAM_REGISTER);
@@ -258,10 +262,12 @@ void SerialRAM::read(const uint16_t address, uint8_t * values, const uint16_t si
 {
 	address16b a;
 	a.a16 = address;
-	if(a.a8[1] & this->STORAGE_ARRAY_SIZE){
+	uint16_t size1 = size;
+	uint8_t arrSize = this->STORAGE_ARRAY_SIZE;
+	if(a.a8[1] & arrSize){
 		return 5;
 	}
-	else if((address + size) | (this->STORAGE_ARRAY_SIZE << 8)){
+	else if((a.a16 + size1) | (arrSize << 8)){
 		return 5;
 	}
 	Wire.beginTransmission(this->SRAM_REGISTER);
