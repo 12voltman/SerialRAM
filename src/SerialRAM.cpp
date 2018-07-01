@@ -237,13 +237,13 @@ uint8_t SerialRAM::write(const uint16_t address, const uint8_t* values, const ui
 	address16b a;
 	a.a16 = address;
 	uint16_t size1 = size;
-	uint8_t arrSize = this->STORAGE_ARRAY_SIZE;
+	uint16_t arrSize = this->STORAGE_ARRAY_SIZE;
 	if(a.a8[1] & this->STORAGE_ARRAY_SIZE){
 		return 5;
 	}
-	else if((a.a16 + size1) | (arrSize << 8)){
-		return 5;
-	}
+	//else if((a.a16 + size1) | (arrSize << 8)){
+	//	return 5;
+	//}
 	Wire.beginTransmission(this->SRAM_REGISTER);
 	Wire.write(a.a8[1]);
 	Wire.write(a.a8[0]);
@@ -263,13 +263,13 @@ uint8_t SerialRAM::read(const uint16_t address, uint8_t * values, const uint16_t
 	address16b a;
 	a.a16 = address;
 	uint16_t size1 = size;
-	uint8_t arrSize = this->STORAGE_ARRAY_SIZE;
+	uint16_t arrSize = this->STORAGE_ARRAY_SIZE;
 	if(a.a8[1] & arrSize){
 		return 5;
 	}
-	else if((a.a16 + size1) | (arrSize << 8)){
-		return 5;
-	}
+	//else if((a.a16 + size1) | (arrSize << 8)){
+	//	return 5;
+	//}
 	Wire.beginTransmission(this->SRAM_REGISTER);
 	Wire.write(a.a8[1]);
 	Wire.write(a.a8[0]);
